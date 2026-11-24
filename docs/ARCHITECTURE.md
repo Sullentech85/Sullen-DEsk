@@ -130,7 +130,17 @@ Logging out, restarting and powering off ask every window to close first
 | `packaging/` | | A Debian equivs file for the recommended program set. |
 | `docs/` | | These documents and the development log. |
 
-Both large files are organised in sections marked with comments of the form
+`src/wm.c` and `src/draw.c` are each kept in parts, one to a subject, in
+`src/wm/` and `src/draw/` (`src/wm/lock.c`, `src/draw/calendar.c` and so on).
+The parts are not compiled on their own: `wm.c` and `draw.c` hold what comes
+first (includes, types, shared helpers) and then `#include` their parts in
+order, so each is still one translation unit and a `static` function in one
+part is seen by the parts after it. The order of the `#include` lines is the
+order the code was in; a new part goes after the parts it uses. Where this
+document or MODDING.md says `wm.c` or `draw.c`, the code may be in one of
+its parts: `grep -rn name src/` finds it.
+
+Both are organised in sections marked with comments of the form
 `/* ---- name ---- */` (and `/* ==== */` banners in `draw.c`). Searching for
 `---- ` gives a table of contents. Each section begins with a comment saying
 what it does and why.

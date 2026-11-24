@@ -125,7 +125,9 @@ def main():
         print(f'{name}: {len(rows)} rows')
     # (information) what is printed and has no row
     used = set()
-    for path in glob.glob(os.path.join(root, 'src', '*.c')):
+    # (src/wm.c and src/draw.c are kept in parts, in src/wm and src/draw)
+    for path in (glob.glob(os.path.join(root, 'src', '*.c'))
+                 + glob.glob(os.path.join(root, 'src', '*', '*.c'))):
         for m in re.finditer(r'\b(?:TR|W)\(\s*((?:"(?:[^"\\]|\\.)*"\s*)+)\)',
                              open(path, encoding='utf-8').read()):
             used.add(''.join(unescape(p) for p in re.findall(r'"((?:[^"\\]|\\.)*)"',
