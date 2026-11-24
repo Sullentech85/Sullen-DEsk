@@ -9,13 +9,17 @@
 #include "panel.h"
 
 #include <dirent.h>
+#include <errno.h>
 #include <math.h>
 #include <pthread.h>
 #include <stdatomic.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
+#include <spawn.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -402,6 +406,72 @@ static bool g_muted_cached;
 static pthread_mutex_t g_vol_lock = PTHREAD_MUTEX_INITIALIZER;
 static atomic_bool g_vol_asking;
 
+/* wpctl, run as its own words and not through a shell: nothing here is a
+ * command line, so nothing in the environment (IFS, a shell's start-up
+ * files, an alias) has a say in what runs. Its output comes back through
+ * out (NULL: it goes nowhere); its errors go nowhere. True when it ran and
+ * exited 0. */
+extern char **environ;
+
+static bool wpctl_run(char *const argv[], char *out, size_t out_size)
+{
+	int fd[2] = { -1, -1 };
+	if (out && pipe(fd) != 0) {
+		return false;
+	}
+	posix_spawn_file_actions_t fa;
+	if (posix_spawn_file_actions_init(&fa) != 0) {
+		if (out) {
+			close(fd[0]);
+			close(fd[1]);
+		}
+		return false;
+	}
+	posix_spawn_file_actions_addopen(&fa, STDIN_FILENO, "/dev/null", O_RDONLY, 0);
+	if (out) {
+		posix_spawn_file_actions_adddup2(&fa, fd[1], STDOUT_FILENO);
+		posix_spawn_file_actions_addclose(&fa, fd[0]);
+		posix_spawn_file_actions_addclose(&fa, fd[1]);
+	} else {
+		posix_spawn_file_actions_addopen(&fa, STDOUT_FILENO, "/dev/null", O_WRONLY, 0);
+	}
+	posix_spawn_file_actions_addopen(&fa, STDERR_FILENO, "/dev/null", O_WRONLY, 0);
+	pid_t pid;
+	int err = posix_spawnp(&pid, argv[0], &fa, NULL, argv, environ);
+	posix_spawn_file_actions_destroy(&fa);
+	if (out) {
+		close(fd[1]);
+	}
+	if (err != 0) {
+		if (out) {
+			close(fd[0]);
+		}
+		return false;
+	}
+	if (out) {
+		size_t got = 0;
+		while (got + 1 < out_size) {
+			ssize_t n = read(fd[0], out + got, out_size - 1 - got);
+			if (n < 0 && errno == EINTR) {
+				continue;
+			}
+			if (n <= 0) {
+				break;
+			}
+			got += (size_t)n;
+		}
+		out[got] = '\0';
+		close(fd[0]);
+	}
+	int st = 0;
+	while (waitpid(pid, &st, 0) < 0) {
+		if (errno != EINTR) {
+			return false;
+		}
+	}
+	return WIFEXITED(st) && WEXITSTATUS(st) == 0;
+}
+
 /* Asking the mixer costs a process, and a process is a fork of whoever
  * asks. On the compositor's thread that was ten milliseconds of a frozen
  * desktop every other second, for a knob nobody was looking at. So the
@@ -412,10 +482,15 @@ static void *volume_ask(void *arg)
 {
 	(void)arg;
 	double asked = now_sec();
-	FILE *f = popen("wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null", "r");
-	if (f) {
-		char buf[128] = { 0 };
-		if (fgets(buf, sizeof buf, f)) {
+	char *const ask[] = { (char *)"wpctl", (char *)"get-volume",
+		(char *)"@DEFAULT_AUDIO_SINK@", NULL };
+	char buf[128] = { 0 };
+	if (wpctl_run(ask, buf, sizeof buf)) {
+		char *nl = strchr(buf, '\n');
+		if (nl) {
+			*nl = '\0';   /* the first line, as fgets took it */
+		}
+		if (buf[0]) {
 			double v = 0.0;
 			const char *p = strstr(buf, "Volume:");
 			if (p) {
@@ -430,7 +505,6 @@ static void *volume_ask(void *arg)
 			}
 			pthread_mutex_unlock(&g_vol_lock);
 		}
-		pclose(f);
 	}
 	atomic_store(&g_vol_asking, false);
 	return NULL;
@@ -490,19 +564,22 @@ static void *volume_setter(void *arg)
 		g_set_vol = -1.0;
 		g_set_mute = -1;
 		pthread_mutex_unlock(&g_set_lock);
-		char cmd[128];
 		if (v >= 0.0) {
-			snprintf(cmd, sizeof cmd,
-				"wpctl set-volume @DEFAULT_AUDIO_SINK@ %.2f >/dev/null 2>&1", v);
-			if (system(cmd) == -1) {
-				/* nothing to do about it here; the reading will say */
-			}
+			/* (two decimals, with a point whatever the locale: wpctl
+			 * reads no other) */
+			char level[32];
+			long hundredths = lround(v * 100.0);
+			snprintf(level, sizeof level, "%ld.%02ld", hundredths / 100, hundredths % 100);
+			char *const set[] = { (char *)"wpctl", (char *)"set-volume",
+				(char *)"@DEFAULT_AUDIO_SINK@", level, NULL };
+			/* nothing to do about a failure here; the reading will say */
+			(void)wpctl_run(set, NULL, 0);
 		}
 		if (mute >= 0) {
-			snprintf(cmd, sizeof cmd, "wpctl set-mute @DEFAULT_AUDIO_SINK@ %s >/dev/null 2>&1",
-				mute == 2 ? "toggle" : mute ? "1" : "0");
-			if (system(cmd) == -1) {
-			}
+			char *const set[] = { (char *)"wpctl", (char *)"set-mute",
+				(char *)"@DEFAULT_AUDIO_SINK@",
+				(char *)(mute == 2 ? "toggle" : mute ? "1" : "0"), NULL };
+			(void)wpctl_run(set, NULL, 0);
 		}
 	}
 	return NULL;
