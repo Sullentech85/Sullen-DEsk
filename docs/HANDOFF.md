@@ -60,6 +60,11 @@ its paper in each).
   now builds on, so `install_arch.sh` could use it: not done, not testable
   here.
 
+- **The previous owner's project site** (`gh-pages`: homepage,
+  screenshots, try-it page) was emptied by a commit on 2026-11-24; its
+  pages stay in that branch's history. To be rid of it altogether: turn
+  GitHub Pages off (Settings, Pages) and delete the `gh-pages` branch.
+
 ### Decisions
 
 - The split keeps one translation unit on purpose. Making the parts compile
@@ -81,7 +86,9 @@ its paper in each).
 
 1. Try the branch on a real machine (GPU, login screen), on wlroots 0.19 or
    0.20: log in, NIGHT, a film with Print, a touch screen if there is one.
-2. Tag v1.0 and, if it is to be downloaded, make its archive.
+2. Tag v1.0 and, if it is to be downloaded, make its archive (GitHub's
+   Releases page makes both; this session could not push tags).
+   Delete the merged `make-it-mine` branch (it could not delete branches).
 3. `install_arch.sh`: use Arch's wlroots 0.20 instead of building 0.18.3.
 4. The Japanese documents were only touched where they named the previous
    owner or the removed log; "Working on DEsk" is in the English README
