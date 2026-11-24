@@ -1,5 +1,6 @@
 8f56e4ad837b4931a888cfbef8c6fb7641ca8f37c450501ee6657be2d91a3777  ./.dockerignore
-f23feed53be20d224688cb6cbd0a1e7ae0f68f9254ab74bf78d420b2825b71e7  ./.gitignore
+dfceae0e10d6fd2bcf95f113094861c990d829ad35bdff6f3834ebc31e5538f3  ./.github/workflows/ci.yml
+4c357e408fbc30d794e20fa2e586549392d412c970257485d9cc8dbdb2aa3bc0  ./.gitignore
 9ca2f8afe06176db8b331513b4c67681c6923b3414e194fe6ef66eb8c8fa6e44  ./Dockerfile
 87dd199cc6c7a1fd1fefb42f86d924b11a053ef5444dfd5cbf479dd22d6dbc15  ./LICENSE
 f67f4ad0e0e881274e116a56f5e2ec34e045dec94ba1a56115f24a3c709ab109  ./README.ja.md
@@ -184,8 +185,8 @@ f19959cc9918d9ef17880494f6db83772ccd145852a1c2260c650da22bb313de  ./art/sound/sl
 92a8448900c4a059d901136bd884703424768752d46f70d3995de4326c2f6a99  ./art/sound/slide-soft-slow-1.wav
 209f0198647188283838429a980936e13e981b834756ca507a5b3b25f03af3ca  ./art/sound/slide-wood-quick-1.wav
 3d893925ddc63f27c38a08d0b390e145d49d66d20ae91267fcc11dc578341f67  ./art/sound/slide-wood-slow-1.wav
-a167a8dec3b2e752c8f8253e72a2ebbea8c36483370093920a2b5e632942df1b  ./docs/ARCHITECTURE.ja.md
-72cfb54841371f07dc3be56b782e43e598dd7cf1303d95b746723f50f2c617de  ./docs/ARCHITECTURE.md
+1b45aeeb803384d6f306718e55aeb1f8737000fb7fba2fbb28f8448c356bbab3  ./docs/ARCHITECTURE.ja.md
+927b2b7713502cb025f5b0d3ca4ec79233a0fe556415edc70aebc76d9618c5b7  ./docs/ARCHITECTURE.md
 9fd555a2f1bcd463cc81a5e6f6dd3174c0a850859925f794a12fdf40d05368f4  ./docs/CONFIGURATION.md
 5fa0d9480417158f6d262eb464e05fe7f0c8390297830221abc439cf8b65a2e8  ./docs/LOOKS.ja.md
 2ffe9ec51423acb3cd9d0a0b9110e1a9dad244e12de1b4b10dd97528971220cd  ./docs/LOOKS.md
@@ -253,6 +254,7 @@ d6075438a19afdf40e8e65b161611c47537698e6a90f863cabff3f318a0cda1a  ./packaging/ni
 65b0f82a6cf129bf1a1c31a2428795abd33886c15ddd5f3ad97e5922d7bdc3a7  ./protocols/wlr-output-management-unstable-v1.xml
 7ebd98f3449d246a57829e4b4dd9fbc3ef98e3dd42fa94ea102f14f490eb20de  ./protocols/wlr-output-power-management-unstable-v1.xml
 084738b63bc4ed545f3a24c4a36c26e9dc235374b855c52039f45e50fe77f29b  ./scripts/check-words.py
+9a40a24252259a6986fc0aa2555033f042df0263f4962c5ccfab5d1845e16989  ./scripts/ci.sh
 31aa8987f434df89da9eaeca9343a3945ea0adc7959b14c5df6c0cd3940beccf  ./scripts/desk-ctl
 d36234d582604c054d5cb95b29f8dc08186a1c54a69eb48ea2a077396cb40f50  ./scripts/desk-record
 59e27b8aeeb0122121bf426cb75e0a6ca4aa08fe2b051ea8e2928ae43c997fc6  ./scripts/desk-report
@@ -269,6 +271,7 @@ ee0424a277ba22b49bdfc1f2bd9daca136a3e07e57d7b518f8f30d0268a5f4be  ./scripts/inst
 904288cd9e823ef52fef7a42704d6d1fed339a3f3c5417a290e29bc288e19c7a  ./scripts/install_fedora.sh
 88d207cb26e99df2efa67ea71dd3e8f9908bbfa350bf689ef2ff84326f2798dc  ./scripts/install_session.sh
 d33a9c8185aa504ba71ceea312bb19011bb6cd69785ec180d371049201129214  ./scripts/install_ubuntu.sh
+cbfc08102c97223845fa76a408400d42053e5ece0aff7409c7a912068ec55648  ./scripts/make-sums.sh
 b6164325cec6f7b2a2328c01ad0daade3d6a3ed26de3eca51007dd2b86028442  ./scripts/room-key.py
 a36962be2c4e986469cabc39daf728ed925380168d6b054eb160c60a54342463  ./scripts/uninstall.sh
 950590bbb80842a602afe00517244207bb7db4b078dd98b6220239e85b07c556  ./scripts/verify.sh

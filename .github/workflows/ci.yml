@@ -1,0 +1,57 @@
+# Every push and pull request: DEsk built, its tests run, and the desk
+# started with no screen and no GPU and its picture taken.
+#
+# The steps are scripts/ci.sh, so the same can be run by hand in a container
+# of the same distribution:  sh scripts/ci.sh deps lint build test smoke
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# read the code, nothing else
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Debian 13, wlroots 0.18
+            image: debian:trixie-slim
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      - name: git, for the checkout
+        run: apt-get update -q && apt-get install -y -q --no-install-recommends git ca-certificates
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Packages
+        run: sh scripts/ci.sh deps
+      - name: SHA256SUMS and shell scripts
+        run: sh scripts/ci.sh lint
+      - name: Build
+        run: sh scripts/ci.sh build
+      - name: Tests
+        run: sh scripts/ci.sh test
+      - name: The desk, headless
+        run: sh scripts/ci.sh smoke
+      - name: Keep the pictures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: desk-${{ strategy.job-index }}
+          path: out-ci
+          if-no-files-found: ignore
+          retention-days: 14

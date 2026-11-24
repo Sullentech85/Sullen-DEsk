@@ -94,7 +94,7 @@ DEsk v0.1 (BETA) の技術的な全体像です。どんなプログラムがあ
 | `session/` | | セッションのエントリ、PAM のファイル、autostart、既定のアプリの一覧、ポータルの設定。 |
 | `themes/` | | DEsk のアイコンテーマ（`themes/make-icons.py` で生成）と GTK テーマ。 |
 | `packaging/` | | おすすめのプログラム一式のための Debian の equivs ファイル。 |
-| `docs/` | | この文書群と開発の記録。 |
+| `docs/` | | この文書群。 |
 
 `src/wm.c` と `src/draw.c` は、主題ごとの部分に分けて `src/wm/` と `src/draw/` に置いてあります。部分は単独ではコンパイルされず、`wm.c` と `draw.c` が順に `#include` します（翻訳単位は一つのままです）。
 
