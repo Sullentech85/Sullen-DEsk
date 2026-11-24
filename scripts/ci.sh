@@ -9,8 +9,11 @@
 #   build   meson setup and compile, into build-ci
 #   test    meson test
 #   smoke   install it, draw the preview and start the desk with no screen
-#           and no GPU (headless, pixman), and take its picture: into
-#           $CI_OUT (default out-ci)
+#           and no GPU (headless, pixman), and take its picture; then once
+#           more with a Wayland program (foot) and once with an X11 one
+#           (xclock, through Xwayland) open on it: into $CI_OUT (default
+#           out-ci). The desk has to come up, log no error and end cleanly
+#           each time.
 #
 # .github/workflows/ci.yml runs: deps lint build test smoke.
 set -eu
@@ -38,7 +41,7 @@ step_deps() {
 		libcairo2-dev libpango1.0-dev libgtk-3-dev libpixman-1-dev libfontconfig-dev \
 		libfreetype-dev libdrm-dev libegl-dev libgles-dev libgbm-dev libsystemd-dev \
 		libpulse-dev libpam0g-dev libxcb1-dev libxcb-icccm4-dev libxcb-ewmh-dev \
-		xwayland fonts-dejavu-core
+		xwayland fonts-dejavu-core foot x11-apps
 }
 
 step_lint() {
@@ -76,8 +79,27 @@ step_smoke() {
 	timeout 600 desk --headless --size 1280x800 --dump "$out/chrome.png" \
 		--screenshot "$out/desktop.png" --delay 6000 --exit-after-screenshot \
 		> "$out/desk.log" 2>&1
+	# and with a program open on it, of each kind: what a window asks of
+	# wlroots is where its series differ most, and a desk that ends with a
+	# window still open is the one that has the most to put away
+	for prog in foot xclock; do
+		command -v "$prog" >/dev/null 2>&1 || { echo "ci.sh: no $prog here; that run is left out"; continue; }
+		rc=0
+		timeout 300 desk --headless --size 1280x800 --screenshot "$out/with-$prog.png" \
+			--delay 14000 --exit-after-screenshot -s "$prog" > "$out/with-$prog.log" 2>&1 || rc=$?
+		if [ "$rc" -ne 0 ]; then
+			echo "ci.sh: the desk with $prog open ended with status $rc:" >&2
+			tail -n 5 "$out/with-$prog.log" >&2
+			smoke_bad=1
+		fi
+		if grep -q '\[ERROR\]' "$out/with-$prog.log"; then
+			echo "ci.sh: the desk with $prog open logged errors:" >&2
+			grep '\[ERROR\]' "$out/with-$prog.log" >&2
+			smoke_bad=1
+		fi
+	done
 	rm -rf "$run"
-	bad=0
+	bad=${smoke_bad:-0}
 	for f in preview.png chrome.png desktop.png; do
 		# (a picture of the desk is hundreds of kilobytes; an empty one a few)
 		if [ ! -s "$out/$f" ] || [ "$(wc -c < "$out/$f")" -lt 50000 ]; then
@@ -92,7 +114,7 @@ step_smoke() {
 	fi
 	ls -l "$out"
 	[ "$bad" -eq 0 ] || exit 1
-	echo "smoke: the desk came up and its picture was taken."
+	echo "smoke: the desk came up, alone and with a program of each kind, and ended cleanly."
 }
 
 [ $# -gt 0 ] || { sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }

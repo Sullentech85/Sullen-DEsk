@@ -2110,8 +2110,11 @@ static void room_build_now(int cw, int ch, int hq, int wcw, int wch, int whq, in
 			}
 		}
 		if (each[0] || !whole) {
+			/* (a room with no films -- 2D, film_div 0 -- still comes here
+			 * when it is stopped part way: it is not to be divided by) */
+			int fdiv = rr->film_div > 0 ? rr->film_div : 1;
 			room_log("the films of the moves, %dx%d a frame: %s%s; in all %.1f s",
-				rr->w / rr->film_div, rr->h / rr->film_div, each[0] ? each : "none",
+				rr->w / fdiv, rr->h / fdiv, each[0] ? each : "none",
 				whole ? "" : room_stopping() ? " (stopped part way: the session is ending)"
 				: " (let go part way: another room is wanted)",
 				room_now() - t0);

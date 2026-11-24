@@ -732,7 +732,7 @@ static void ime_window_place(struct desk_toplevel *view)
 	struct desk_server *server = view->server;
 	struct wlr_xdg_surface *xs = view->xdg_toplevel->base;
 	struct wlr_box g;
-	wlr_xdg_surface_get_geometry(xs, &g);
+	desk_xdg_surface_geometry(xs, &g);
 	int w = g.width > 0 ? g.width : xs->surface->current.width;
 	int h = g.height > 0 ? g.height : xs->surface->current.height;
 	struct wlr_box at = server->ime_at;

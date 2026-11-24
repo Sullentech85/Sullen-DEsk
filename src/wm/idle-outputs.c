@@ -594,7 +594,7 @@ static bool om_picture(struct desk_server *server, struct wlr_output_swapchain_m
 			return true;
 		}
 	}
-	struct wlr_buffer *buf = wlr_swapchain_acquire(sc, NULL);
+	struct wlr_buffer *buf = desk_swapchain_acquire(sc);
 	if (!buf) {
 		return false;
 	}

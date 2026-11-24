@@ -199,6 +199,66 @@ static bool cards_pick(void)
 	return true;
 }
 
+/* A listener of the desk's own, taken off whatever it was listening to --
+ * if it ever was put on (the server starts as zeroes, and some of these are
+ * for things this machine may not have). wlroots 0.19 and later will not
+ * destroy a thing that still has listeners: it stops the program there. So
+ * on the way out every one of these comes off first. */
+static void listener_drop(struct wl_listener *listener)
+{
+	if (listener->link.next && listener->link.prev) {
+		wl_list_remove(&listener->link);
+		wl_list_init(&listener->link);
+	}
+}
+
+static void server_listeners_drop(struct desk_server *server)
+{
+	struct wl_listener *const all[] = {
+		&server->request_activate,
+		&server->layout_change,
+		&server->om_apply,
+		&server->om_test,
+		&server->power_set_mode,
+		&server->new_idle_hold,
+		&server->new_output,
+		&server->new_xdg_toplevel,
+		&server->new_xdg_popup,
+		&server->new_decoration,
+		&server->new_kde_deco,
+		&server->cursor_motion,
+		&server->cursor_motion_absolute,
+		&server->cursor_button,
+		&server->cursor_axis,
+		&server->cursor_frame,
+		&server->pen_axis,
+		&server->pen_proximity,
+		&server->pen_tip,
+		&server->pen_button,
+		&server->touch_down,
+		&server->touch_motion,
+		&server->touch_up,
+		&server->touch_cancel,
+		&server->touch_frame,
+		&server->new_input,
+		&server->new_pointer_constraint,
+		&server->new_text_input,
+		&server->kb_focus_change,
+		&server->new_keys_inhibitor,
+		&server->request_cursor,
+		&server->pointer_focus_change,
+		&server->request_set_selection,
+		&server->request_set_primary_selection,
+		&server->request_start_drag,
+		&server->start_drag,
+		&server->drag_icon_gone,
+		&server->held_gone,
+	};
+	for (size_t i = 0; i < sizeof all / sizeof all[0]; i++) {
+		listener_drop(all[i]);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	g_start_real = real_sec();
@@ -415,7 +475,7 @@ int main(int argc, char **argv)
 		wl_signal_add(&activation->events.request_activate, &server.request_activate);
 	}
 	wlr_viewporter_create(server.wl_display);
-	wlr_presentation_create(server.wl_display, server.backend);
+	desk_presentation_create(server.wl_display, server.backend);
 	wlr_single_pixel_buffer_manager_v1_create(server.wl_display);
 
 	server.output_layout = wlr_output_layout_create(server.wl_display);
@@ -699,7 +759,7 @@ int main(int argc, char **argv)
 	server.ti_mgr = wlr_text_input_manager_v3_create(server.wl_display);
 	if (server.ti_mgr) {
 		server.new_text_input.notify = server_new_text_input;
-		wl_signal_add(&server.ti_mgr->events.text_input, &server.new_text_input);
+		wl_signal_add(desk_text_input_new(server.ti_mgr), &server.new_text_input);
 	}
 	server.kb_focus_change.notify = seat_kb_focus_change;
 	wl_signal_add(&server.seat->keyboard_state.events.focus_change, &server.kb_focus_change);
@@ -883,12 +943,13 @@ int main(int argc, char **argv)
 #endif
 	wl_display_destroy_clients(server.wl_display);
 	wlr_scene_node_destroy(&server.scene->tree.node);
+	/* (before anything they listen to is destroyed: see listener_drop) */
+	server_listeners_drop(&server);
 	wlr_xcursor_manager_destroy(server.cursor_mgr);
 	wlr_cursor_destroy(server.cursor);
 	wlr_allocator_destroy(server.allocator);
 	wlr_renderer_destroy(server.renderer);
 	wlr_backend_destroy(server.backend);
-	wl_list_remove(&server.layout_change.link);
 	desk_sound_shutdown();
 #ifdef DESK_HAVE_POST
 	desk_post_finish();

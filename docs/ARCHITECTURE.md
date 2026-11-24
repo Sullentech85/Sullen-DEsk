@@ -147,7 +147,8 @@ what it does and why.
 
 ## 4. The compositor (`src/wm.c`)
 
-DEsk is built on **wlroots 0.18**. The backend and renderer are whatever
+DEsk is built on **wlroots 0.18, 0.19 or 0.20** (whichever the build finds,
+newest first; `include/wlrcompat.h` holds what differs). The backend and renderer are whatever
 wlroots picks (DRM and libinput under a login session; the Wayland or X11
 backend when nested; headless for tests); the renderer is GLES2 when there
 is a GPU and pixman otherwise. One `struct desk_server` holds the state.

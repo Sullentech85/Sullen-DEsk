@@ -686,7 +686,7 @@ static void view_geometry(const struct desk_toplevel *view, struct wlr_box *geo)
 #endif
 	*geo = (struct wlr_box){ 0 };
 	if (view->xdg_toplevel) {
-		wlr_xdg_surface_get_geometry(view->xdg_toplevel->base, geo);
+		desk_xdg_surface_geometry(view->xdg_toplevel->base, geo);
 	}
 }
 
@@ -737,7 +737,7 @@ static void view_set_maximized(struct desk_toplevel *view, bool on)
 {
 #ifdef DESK_HAVE_XWAYLAND
 	if (view->xsurface) {
-		wlr_xwayland_surface_set_maximized(view->xsurface, on);
+		desk_xwayland_set_maximized(view->xsurface, on);
 		return;
 	}
 #endif
@@ -763,7 +763,7 @@ static bool view_takes_keys(const struct desk_toplevel *view)
 {
 #ifdef DESK_HAVE_XWAYLAND
 	if (view->xsurface) {
-		return wlr_xwayland_icccm_input_model(view->xsurface) != WLR_ICCCM_INPUT_MODEL_NONE;
+		return desk_xwayland_input_model(view->xsurface) != WLR_ICCCM_INPUT_MODEL_NONE;
 	}
 #endif
 	(void)view;

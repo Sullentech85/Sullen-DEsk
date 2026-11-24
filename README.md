@@ -391,10 +391,14 @@ disk, each 1.0-9.9, on brass-rimmed meters; the base score is the lowest.
 The simplest way is the installer for your distribution (below), which
 brings everything. To build it yourself:
 
-- wlroots 0.18 (Debian 13 has it, and Fedora 43 and later as `wlroots0.18`;
-  Ubuntu 24.04 has 0.17, Ubuntu 26.04 only 0.19 and Arch only 0.20, so the
-  installers build 0.18.3 from its release into `/opt/desk-wlroots`, used by
-  DEsk alone through its run path)
+- wlroots 0.18, 0.19 or 0.20: the build takes the newest of the three it
+  finds, and `include/wlrcompat.h` holds what differs between them. Debian
+  13 has 0.18, Ubuntu 26.04 has 0.19 and Ubuntu 26.10 has 0.20, and
+  `install_debian.sh` and `install_ubuntu.sh` use those. Ubuntu 24.04 has
+  only 0.17, so there the installer builds 0.18.3 from its release into
+  `/opt/desk-wlroots`, used by DEsk alone through its run path. The Arch
+  and Fedora installers and the Nix flake still fetch or build 0.18
+  themselves, as before.
 - wayland, wayland-protocols, xkbcommon, cairo, pixman, fontconfig, libdrm, PAM
 - libsystemd (optional): the notification daemon and the system tray.
   Build with `-Dpost=disabled` to leave them out.
@@ -430,7 +434,39 @@ advance (then it is cached).
 ```sh
 meson setup build
 meson compile -C build
+meson test -C build
 ```
+
+### Working on DEsk
+
+- **Where the code is.** `src/wm.c` (the compositor) and `src/draw.c` (the
+  drawing library) are each a short head followed by `#include` lines for
+  their parts, one to a subject, in `src/wm/` and `src/draw/`
+  (`src/wm/lock.c`, `src/draw/calendar.c` ...). The parts are compiled as
+  one file with their head, in the order they are listed, so a `static`
+  function is seen by every part after it. `grep -rn name src/` finds
+  anything. More in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), section 3.
+- **wlroots.** Anything that is spelled differently from one wlroots series
+  to the next goes in `include/wlrcompat.h` under a `desk_` name, not in an
+  `#if` where it is used.
+- **SHA256SUMS.** The installers check every file against `SHA256SUMS` and
+  stop if one differs, so after changing any file run
+  `sh scripts/make-sums.sh` and commit the result with the change. CI fails
+  if it was forgotten.
+- **CI.** `.github/workflows/ci.yml` runs on every push and pull request,
+  once for each wlroots series (Debian 13 with 0.18, Ubuntu 26.04 with
+  0.19, Ubuntu 26.10 with 0.20): it checks `SHA256SUMS` and the shell
+  scripts, builds, runs the tests, then starts the desk with no screen and
+  no GPU -- alone, with a Wayland program and with an X11 one -- and keeps
+  the pictures as the run's artifacts. The steps are `scripts/ci.sh`, and
+  the same can be run by hand in a container of the distribution, as root:
+
+  ```sh
+  sh scripts/ci.sh deps lint build test smoke
+  ```
+- **Where things stand.** [docs/HANDOFF.md](docs/HANDOFF.md) says what was
+  last done and what is next; [docs/LESSONS.md](docs/LESSONS.md) keeps what
+  went wrong before, to be read before starting.
 
 ## Run
 

@@ -2,6 +2,33 @@
 
 # DEsk v0.2.1 (BETA)
 
+## Since v0.2.1, in this repository (not yet a release)
+
+- **Builds on wlroots 0.19 and 0.20 as well as 0.18.** The build takes the
+  newest of the three it finds. What differs between them is in one header
+  (`include/wlrcompat.h`). `install_ubuntu.sh` uses the distribution's
+  wlroots on Ubuntu 26.04 (0.19) and 26.10 (0.20) and no longer builds 0.18
+  there; 24.04 still gets 0.18.3 built for it. The Arch and Fedora
+  installers and the Nix flake are as they were.
+- **Fixed: DEsk could end with "Floating point exception".** Ending the
+  session while the room was still being made, at 2D Fallback (where there
+  are no films of the moves), divided by zero in a line written to the log.
+- **Fixed for wlroots 0.19 and later: ending the session.** wlroots now
+  stops a program that destroys a thing something is still listening to;
+  DEsk takes its listeners off first.
+- **The Control Panel's volume knob starts `wpctl` itself**, not through a
+  shell.
+- **For people changing DEsk:** `src/wm.c` and `src/draw.c` are kept in
+  parts by subject (`src/wm/`, `src/draw/`); `scripts/make-sums.sh` writes
+  `SHA256SUMS` again; and CI builds and starts the desk on every push
+  (`.github/workflows/ci.yml`, `scripts/ci.sh`). See "Working on DEsk" in
+  the README.
+
+Not tried on a real screen yet: these were checked headless, with the
+software renderer. In particular NIGHT (the warm colours), which on wlroots
+0.20 goes on through a colour transform where it was a gamma table before,
+has only been compiled there.
+
 ## What changed since v0.2
 
 - **Fixed: on a slower machine, the Control Panel's key did not seem to turn

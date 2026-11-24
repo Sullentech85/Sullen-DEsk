@@ -271,7 +271,7 @@ static void popup_keep_on_screen(struct desk_popup *popup)
 	int gx, gy;
 	wlr_scene_node_coords(&view->surface_tree->node, &gx, &gy);
 	struct wlr_box geo;
-	wlr_xdg_surface_get_geometry(root, &geo);
+	desk_xdg_surface_geometry(root, &geo);
 	int ox = gx - geo.x, oy = gy - geo.y;   /* the surface's corner on the screens */
 	const struct wlr_box *a = &xp->scheduled.rules.anchor_rect;
 	int ax, ay;
@@ -645,7 +645,7 @@ static void xview_map(struct wl_listener *listener, void *data)
 		 * never the input method's candidates, which say they take the
 		 * keys (IBus's are a "normal" window that accepts input) and took
 		 * them from the text they were for -- which put them away */
-		if (wlr_xwayland_or_surface_wants_focus(xs) && !locked(server)
+		if (desk_xwayland_or_wants_focus(xs) && !locked(server)
 			&& !ime_window_name(xs->instance) && !ime_window_name(xs->class)) {
 			struct wlr_keyboard *kb = wlr_seat_get_keyboard(server->seat);
 			wlr_seat_keyboard_notify_enter(server->seat, xs->surface,
@@ -775,7 +775,7 @@ static void xview_map_request(struct wl_listener *listener, void *data)
 		wlr_xwayland_surface_set_fullscreen(xs, true);
 	}
 	if (max && !xs->maximized_horz && !xs->maximized_vert) {
-		wlr_xwayland_surface_set_maximized(xs, true);
+		desk_xwayland_set_maximized(xs, true);
 	}
 }
 
@@ -1061,8 +1061,7 @@ static void xwayland_ready(struct wl_listener *listener, void *data)
 			"default", 1);
 		if (xc && xc->image_count > 0) {
 			struct wlr_xcursor_image *im = xc->images[0];
-			wlr_xwayland_set_cursor(server->xwayland, im->buffer, im->width * 4,
-				im->width, im->height, (int32_t)im->hotspot_x, (int32_t)im->hotspot_y);
+			desk_xwayland_set_cursor_image(server->xwayland, im);
 		}
 	}
 	/* where windows go, for the programs that place their own */

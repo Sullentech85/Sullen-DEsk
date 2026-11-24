@@ -1636,7 +1636,7 @@ static bool rec_touched(struct desk_server *server, struct wlr_scene_output *so)
 	}
 	struct wlr_box r = server->rec_src;
 	pixman_box32_t box = { r.x, r.y, r.x + r.width, r.y + r.height };
-	return pixman_region32_contains_rectangle(&so->pending_commit_damage, &box)
+	return pixman_region32_contains_rectangle(desk_scene_output_pending_damage(so), &box)
 		!= PIXMAN_REGION_OUT;
 }
 
@@ -1688,7 +1688,7 @@ static void rec_output_commit(struct desk_server *server, struct wlr_scene_outpu
 	/* (what wlr_scene_output_commit asks itself: whether anything on the
 	 * screen has changed -- which wlroots 0.18 keeps in a field it calls
 	 * its own, pending_commit_damage) */
-	bool changed = wo->needs_frame || pixman_region32_not_empty(&so->pending_commit_damage);
+	bool changed = wo->needs_frame || pixman_region32_not_empty(desk_scene_output_pending_damage(so));
 	bool read = false;
 	if (live && (server->rec_owed || (changed && rec_touched(server, so)))) {
 		if (now >= server->rec_read_at + 1.0 / REC_FPS - 0.002) {

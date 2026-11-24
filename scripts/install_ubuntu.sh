@@ -16,11 +16,12 @@
 #   --prefix DIR   where DEsk goes (default /usr/local)
 #   --help         this
 #
-# DEsk is built on wlroots 0.18, which neither LTS has: 24.04 has 0.17
-# and 26.04 has 0.19. So wlroots 0.18 is built here from its own release,
-# with the newer Wayland it needs on 24.04, into /opt/desk-wlroots, where
-# only DEsk looks for it (DESK_WLROOTS_PREFIX=... for another place).
-# An Ubuntu whose apt has wlroots 0.18 (24.10 to 25.10) gets that instead.
+# DEsk builds on wlroots 0.18, 0.19 or 0.20 (include/wlrcompat.h), and an
+# Ubuntu whose apt has one of them gets that: 0.18 from 24.10 to 25.10,
+# 0.19 on 26.04, 0.20 on 26.10. 24.04 has only 0.17, so there wlroots 0.18
+# is built here from its own release, with the newer Wayland it needs, into
+# /opt/desk-wlroots, where only DEsk looks for it (DESK_WLROOTS_PREFIX=...
+# for another place).
 #
 # The build directory is build-install in the source folder (BUILD_DIR=...
 # for another), and wlroots is built in build-install-wlroots beside it.
@@ -212,7 +213,7 @@ build|the screen lock (PAM)|libpam0g-dev
 build|X11 programs (xcb)|libxcb1-dev
 build|X11 programs: window hints (xcb-icccm)|libxcb-icccm4-dev
 build|X11 programs: wlroots wants it (xcb-ewmh)|libxcb-ewmh-dev
-apt|wlroots 0.18|libwlroots-0.18-dev
+apt|wlroots|libwlroots-0.20-dev libwlroots-0.19-dev libwlroots-0.18-dev
 source|wlroots: fetching its release|curl
 source|wlroots: fetching its release (certificates)|ca-certificates
 source|wlroots: unpacking Wayland|xz-utils
@@ -370,12 +371,14 @@ have() {
 	return 1
 }
 
-# wlroots 0.18: from apt where it has it, built here where it has not.
+# wlroots: from apt where it has a series DEsk builds on (the newest first),
+# and 0.18 built here where it has none.
+WLR_APT="libwlroots-0.20-dev libwlroots-0.19-dev libwlroots-0.18-dev"
 # Built here before, it is used again. Whether apt has it is for the lists
 # to say, so they are read first if anything at all is to be installed.
 stamp="$wlr/share/desk-wlroots/built"
 wlroots=unknown
-if installed libwlroots-0.18-dev; then
+if have "$WLR_APT" >/dev/null; then
 	wlroots=apt
 elif [ -f "$stamp" ]; then
 	wlroots=source
@@ -420,14 +423,17 @@ if [ "$missing" -eq 1 ]; then
 	fi
 fi
 if [ "$wlroots" = unknown ]; then
-	if known libwlroots-0.18-dev; then wlroots=apt; else wlroots=source; fi
+	wlroots=source
+	for p in $WLR_APT; do
+		if known "$p"; then wlroots=apt; break; fi
+	done
 fi
 if [ "$wlroots" = apt ]; then
-	say "wlroots 0.18 is to be had from apt."
+	say "wlroots is to be had from apt."
 elif [ -f "$stamp" ]; then
 	say "wlroots 0.18 was built here before, into $wlr."
 else
-	say "apt has no wlroots 0.18, so it is built here (below), into $wlr."
+	say "apt has no wlroots DEsk builds on (0.18 to 0.20), so 0.18 is built here (below), into $wlr."
 fi
 
 # Ubuntu's Firefox is a snap: apt's "firefox" only installs it from the

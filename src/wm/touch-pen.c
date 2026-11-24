@@ -1461,7 +1461,7 @@ static enum finger_goes finger_whose(struct desk_server *server, double x, doubl
 		}
 	}
 	/* (a program that does not take fingers is clicked, by the hand) */
-	return wlr_surface_accepts_touch(server->seat, *surface) ? FINGER_PROGRAM : FINGER_HAND;
+	return desk_surface_accepts_touch(server->seat, *surface) ? FINGER_PROGRAM : FINGER_HAND;
 }
 
 static int touch_timer_cb(void *data)
@@ -1913,7 +1913,7 @@ static struct desk_pen *pen_of(struct desk_server *server, struct wlr_tablet *ta
 static bool pen_over_program(struct desk_server *server, struct wlr_surface *surface, double sx, double sy)
 {
 	struct desk_pen *pen = server->pen_now;
-	if (!pen || !pen->tablet || !wlr_surface_accepts_tablet_v2(pen->tablet->v2, surface)) {
+	if (!pen || !pen->tablet || !desk_surface_accepts_tablet(pen->tablet->v2, surface)) {
 		return false;
 	}
 	wlr_seat_pointer_clear_focus(server->seat);

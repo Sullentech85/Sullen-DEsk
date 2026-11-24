@@ -232,9 +232,9 @@ static void night_commit(struct desk_output *output, struct wlr_scene_output *so
 				lut[n + i] = (uint16_t)lround(v * gg * 65535.0);
 				lut[2 * n + i] = (uint16_t)lround(v * gb * 65535.0);
 			}
-			wlr_output_state_set_gamma_lut(&st, n, lut, lut + n, lut + 2 * n);
+			desk_output_state_set_gamma(&st, n, lut, lut + n, lut + 2 * n);
 		} else if (n) {
-			wlr_output_state_set_gamma_lut(&st, 0, NULL, NULL, NULL);
+			desk_output_state_set_gamma(&st, 0, NULL, NULL, NULL);
 		}
 		if (!wlr_output_commit_state(wo, &st)) {
 			wlr_log(WLR_INFO, "%s: the night's colours would not go on", wo->name);

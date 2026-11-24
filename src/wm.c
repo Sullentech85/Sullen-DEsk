@@ -157,6 +157,11 @@
 #include <xcb/xcb_icccm.h>
 #endif
 
+/* (the protocol's own header, for its *_SINCE_VERSION numbers: wlroots
+ * 0.20's xdg-shell header no longer brings it in) */
+#include "xdg-shell-protocol.h"
+#include "wlrcompat.h"
+
 enum desk_cursor_mode {
 	DESK_CUR_PASSTHROUGH,
 	DESK_CUR_MOVE,

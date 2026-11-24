@@ -46,9 +46,17 @@ if sdbus.found()
   add_project_arguments('-DDESK_HAVE_POST=1', language: 'c')
 endif
 wayland_scanner = find_program('wayland-scanner')
-wlroots = dependency('wlroots-0.18', required: false)
+# wlroots names its pkg-config file by its series, and the series are not
+# compatible with each other: the newest DEsk is written for comes first
+# (include/compat.h holds what differs between them).
+wlroots = dependency('', required: false)
+foreach series : ['0.20', '0.19', '0.18']
+  if not wlroots.found()
+    wlroots = dependency('wlroots-' + series, required: false)
+  endif
+endforeach
 if not wlroots.found()
-  wlroots = dependency('wlroots', version: '>=0.18.0')
+  wlroots = dependency('wlroots', version: ['>=0.18.0', '<0.21.0'])
 endif
 
 wp = wayland_protos.get_variable('pkgdatadir')

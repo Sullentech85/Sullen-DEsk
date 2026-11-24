@@ -1,5 +1,7 @@
-# Every push and pull request: DEsk built, its tests run, and the desk
-# started with no screen and no GPU and its picture taken.
+# Every push and pull request: DEsk built against each wlroots series it
+# supports (0.18, 0.19, 0.20), its tests run, and the desk started with no
+# screen and no GPU -- alone, with a Wayland program and with an X11 one --
+# and its pictures kept.
 #
 # The steps are scripts/ci.sh, so the same can be run by hand in a container
 # of the same distribution:  sh scripts/ci.sh deps lint build test smoke
@@ -29,6 +31,10 @@ jobs:
         include:
           - name: Debian 13, wlroots 0.18
             image: debian:trixie-slim
+          - name: Ubuntu 26.04, wlroots 0.19
+            image: ubuntu:26.04
+          - name: Ubuntu 26.10, wlroots 0.20
+            image: ubuntu:26.10
     container:
       image: ${{ matrix.image }}
     steps:
