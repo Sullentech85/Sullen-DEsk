@@ -71,14 +71,17 @@ its paper in each).
   repository this was forked from.
 - Git history was not rewritten: the commits before this branch still carry
   their author's name.
-- The version is still 0.2.1; the changes are listed under "Since v0.2.1"
-  in `RELEASE-NOTES.md`.
+- This is **v1.0 (BETA)** (`meson.build` 1.0.0), merged to `main`. The plan
+  from here: v1.1 adds features and more for speed and security; v2.0 is
+  the live test on real machines. It stays "BETA" until that test.
+- No release archive (`DEsk-v1.0-BETA.tar.gz`) has been made or published,
+  and no tag: the release notes' "Installing" section speaks of one.
 
 ### Next
 
 1. Try the branch on a real machine (GPU, login screen), on wlroots 0.19 or
    0.20: log in, NIGHT, a film with Print, a touch screen if there is one.
-2. Decide the version number and tag a release.
+2. Tag v1.0 and, if it is to be downloaded, make its archive.
 3. `install_arch.sh`: use Arch's wlroots 0.20 instead of building 0.18.3.
 4. The Japanese documents were only touched where they named the previous
    owner or the removed log; "Working on DEsk" is in the English README

@@ -2,7 +2,7 @@
 
 # DEsk
 
-**v0.2.1 (BETA)** -- fixes for v0.2: the Control Panel's key and lid on a slower machine and on a touch screen, the top edge of the opened lid, and the drawer's sounds in time with the drawer. v0.2 brought new things to the desk: a calculator, one notebook to type and write in, Print as a camera that also films, and picture-in-picture as an old phone; touch, an on-screen typewriter, a pen and handwriting, and a screen that turns with the machine; the Control Panel redesigned in four; woods, stains and desk mats; favourites, a clipboard and looks for the drawer. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
+**v1.0 (BETA)** -- builds on wlroots 0.19 and 0.20 as well as 0.18, two fixes to ending a session, the big source files kept in parts, and CI on every push. Still a beta: v1.0 has been checked without a screen (headless, on the software renderer), not yet on a real one. What changed, and what is planned for v1.1 and v2.0, is in [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
 > **DEsk** is **D**esktop **E**nvironment and **desk** in one word -- a
 > name that came from the Reddit community. It used to be called DeskWM:
@@ -215,7 +215,7 @@ browser, a file manager and a text editor. The drawer's things and
   settings, borrowed programs, sounds, the room, things on the desk.
 - [docs/CONFIGURATION.md](docs/CONFIGURATION.md) -- every setting, file and
   environment variable.
-- [RELEASE-NOTES.md](RELEASE-NOTES.md) -- what is in v0.2.1 and v0.2, and what
+- [RELEASE-NOTES.md](RELEASE-NOTES.md) -- what is in v1.0, v0.2.1 and v0.2, and what
   is known not to work yet.
 
 ## As a desktop

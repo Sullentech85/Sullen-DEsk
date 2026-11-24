@@ -78,8 +78,8 @@ in
 stdenv.mkDerivation (finalAttrs: {
   pname = "desk";
   # the same as meson.build's version; desk --version names the release
-  # by it (0.2.0 is "DEsk v0.2", 0.2.1 "DEsk v0.2.1")
-  version = "0.2.1";
+  # by it (0.2.1 is "DEsk v0.2.1", 1.0.0 "DEsk v1.0")
+  version = "1.0.0";
 
   # Build the source alongside this packaging, not a separate release download.
   src = lib.cleanSourceWith {

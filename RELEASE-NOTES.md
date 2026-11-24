@@ -1,8 +1,16 @@
 **English** | [日本語](RELEASE-NOTES.ja.md)
 
-# DEsk v0.2.1 (BETA)
+# DEsk v1.0 (BETA)
 
-## Since v0.2.1, in this repository (not yet a release)
+## Where this is going
+
+- **v1.0** (this one): the fork stands on its own -- wlroots 0.18 to 0.20,
+  CI, the source in parts. Checked without a screen only.
+- **v1.1**: new features, and more for speed and for security.
+- **v2.0**: the live test -- DEsk tried on real machines, as a desktop
+  people log in to.
+
+## What changed since v0.2.1
 
 - **Builds on wlroots 0.19 and 0.20 as well as 0.18.** The build takes the
   newest of the three it finds. What differs between them is in one header
@@ -29,7 +37,7 @@ software renderer. In particular NIGHT (the warm colours), which on wlroots
 0.20 goes on through a colour transform where it was a gamma table before,
 has only been compiled there.
 
-## What changed since v0.2
+## What changed in v0.2.1, since v0.2
 
 - **Fixed: on a slower machine, the Control Panel's key did not seem to turn
   until the lid moved.** The Control Panel draws a little of itself in each
@@ -630,7 +638,7 @@ lights a ray-traced room.
 
 ## Installing
 
-Unpack the release (`DEsk-v0.2.1-BETA.zip` or `.tar.gz`), go into its folder
+Unpack the release (`DEsk-v1.0-BETA.zip` or `.tar.gz`), go into its folder
 and run the line for your system:
 
 ```sh
@@ -710,10 +718,10 @@ configurations build with no warnings and `meson test` passes.
 ## Checking your copy
 
 The folder carries `SHA256SUMS`, which the installer checks before it builds.
-The archive comes with `DEsk-v0.2.1-BETA.tar.gz.sha256`:
+The archive comes with `DEsk-v1.0-BETA.tar.gz.sha256`:
 
 ```sh
-sha256sum -c DEsk-v0.2.1-BETA.tar.gz.sha256
+sha256sum -c DEsk-v1.0-BETA.tar.gz.sha256
 ```
 
 ## License
