@@ -4,12 +4,6 @@
 
 **v0.2.1 (BETA)** -- fixes for v0.2: the Control Panel's key and lid on a slower machine and on a touch screen, the top edge of the opened lid, and the drawer's sounds in time with the drawer. v0.2 brought new things to the desk: a calculator, one notebook to type and write in, Print as a camera that also films, and picture-in-picture as an old phone; touch, an on-screen typewriter, a pen and handwriting, and a screen that turns with the machine; the Control Panel redesigned in four; woods, stains and desk mats; favourites, a clipboard and looks for the drawer. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
-Homepage: https://fyzugx.github.io/DEsk/ -- the highlights, a desk you can try in your browser, the install steps and an FAQ.
-
-I've created a Discord server!
-You can also report bugs and submit ideas for new features here!
-link : https://discord.gg/bscPSCsram
-
 > **DEsk** is **D**esktop **E**nvironment and **desk** in one word -- a
 > name that came from the Reddit community. It used to be called DeskWM:
 > the commands are now `desk`, `desk-session`, `desk-settings` and so on, and
@@ -27,7 +21,7 @@ back of the desk. The room is ray-traced, and one desk lamp lights all of it.
 
 ![The desk: two programs on paper, the clock, the Control Panel at the back left and the post box at the back right](docs/screenshots/desk.jpg)
 
-> **Status: beta.** DEsk is used day to day on its author's machines and has
+> **Status: beta.** DEsk has
 > been checked carefully (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md),
 > section 9), but it is still early days: expect rough edges, and expect
 > things to change. Your settings and data will be carried forward.
@@ -35,7 +29,7 @@ back of the desk. The room is ray-traced, and one desk lamp lights all of it.
 ## Install
 
 Download the latest release from the
-[Releases page](https://github.com/fyzugx/DEsk/releases) and unpack it (or
+[Releases page](https://github.com/Sullentech85/Sullen-DEsk/releases) and unpack it (or
 clone this repository). Then, in its folder, run the line for your system:
 
 **Debian 13**
@@ -223,7 +217,6 @@ browser, a file manager and a text editor. The drawer's things and
   environment variable.
 - [RELEASE-NOTES.md](RELEASE-NOTES.md) -- what is in v0.2.1 and v0.2, and what
   is known not to work yet.
-- [docs/design.md](docs/design.md) -- the full development log (in Japanese).
 
 ## As a desktop
 
@@ -571,9 +564,9 @@ without closing your windows.
 ## How it was made
 
 DEsk was built with the help of AI. Much of the code and the documentation
-was written by Claude (Anthropic's AI model) under the author's direction:
-the author decided what DEsk should be and how it should look, tested it on
-real machines, and reviewed what went in. Reports and patches are welcome
+was written by Claude (Anthropic's AI model) under human direction: people
+decided what DEsk should be and how it should look, tested it on real
+machines, and reviewed what went in. Reports and patches are welcome
 all the same.
 
 ## License

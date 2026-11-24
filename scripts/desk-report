@@ -195,5 +195,5 @@ if [ "$print" -eq 1 ]; then
 fi
 report 2>&1 | scrub > "$out"
 echo "Written: $out ($(wc -l < "$out") lines)."
-echo "Please read it through, then attach it to your GitHub issue or Discord message:"
-echo "  https://github.com/fyzugx/DEsk/issues"
+echo "Please read it through, then attach it to your GitHub issue:"
+echo "  https://github.com/Sullentech85/Sullen-DEsk/issues"

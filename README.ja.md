@@ -16,19 +16,14 @@ iOS 6 のころのように画面の中の物を本物そっくりに描く考�
 
 **v0.2.1 (BETA)** — v0.2 の直しの版です（遅めの機械とタッチでの Control Panel の鍵と蓋、開けた蓋の上の縁、引き出しの動きに合う音）。v0.2 は机の道具が増えた版です（電卓、打つのも書くのもできるノート、録画もできる Print のカメラ、古い電話になった動画の小窓）。タッチ・画面のタイプライター・ペンと手書き・画面の自動回転、四つの区画に作り直した Control Panel、木とステインと机のマット、お気に入り・クリップボード・引き出しの見た目も。直したこと・中身・分かっている制限は [RELEASE-NOTES.ja.md](RELEASE-NOTES.ja.md) に。
 
-ホームページ： https://fyzugx.github.io/DEsk/ （ハイライト、ブラウザで触れる机、インストールの手順、よくある質問）
-
-discordのサーバーを作りました！是非参加してください。
-リンク： https://discord.gg/bscPSCsram
-
 ![机：紙に載った二つのプログラム、時計、左奥の Control Panel、右奥のポスト](docs/screenshots/desk.jpg)
 
-> **状態：ベータ。** 作者の機械で毎日使っていて、念入りに確かめてもいますが（[docs/ARCHITECTURE.ja.md](docs/ARCHITECTURE.ja.md) の 9 節）、
+> **状態：ベータ。** 念入りに確かめてはいますが（[docs/ARCHITECTURE.ja.md](docs/ARCHITECTURE.ja.md) の 9 節）、
 > まだ始まったばかりです。粗いところはあり、これから変わるところもあります。設定とデータは先の版へ引き継ぎます。
 
 ## インストール
 
-[Releases のページ](https://github.com/fyzugx/DEsk/releases)から最新の版を落として展開し（このリポジトリを clone しても同じです）、そのフォルダで、使っているシステムの行を実行します。
+[Releases のページ](https://github.com/Sullentech85/Sullen-DEsk/releases)から最新の版を落として展開し（このリポジトリを clone しても同じです）、そのフォルダで、使っているシステムの行を実行します。
 
 **Debian 13**
 
@@ -73,7 +68,6 @@ sudo sh scripts/install_fedora.sh
 - [docs/THINGS.ja.md](docs/THINGS.ja.md) — 紙ではない窓の作り方：電話、ノート、電卓のような物
 - [docs/LOOKS.ja.md](docs/LOOKS.ja.md) — 引き出しの見た目（ルック）の作り方：画像から、模型から（Blender）、人に渡す
 - [docs/CONFIGURATION.md](docs/CONFIGURATION.md) — すべての設定・ファイル・環境変数（英語）
-- [docs/design.md](docs/design.md) — 開発の記録のすべて
 - 画面写真は [docs/screenshots/](docs/screenshots/) に
 
 この README は長いので、まずは上の「インストール」、それから「キー」「困ったとき」から読むのがおすすめです。
@@ -1026,8 +1020,7 @@ DEsk は机を描きます。机の上でする仕事のほうは、**すでに�
 開きます（下の「Shell Settings」）。入っていないプログラムの行は薄く印刷され、その
 配布での名前で「入っていません — 例：nm-connection-editor」と書いてあります。
 
-まだ誰も受け持っていない仕事と、それを埋める候補（DEsk が作るか、借りるか）は
-`docs/design.md` の「線引き」にまとめてあります。主なもの：夜間の色温度
+まだ誰も受け持っていない仕事と、それを埋める候補（DEsk が作るか、借りるか）の主なもの：夜間の色温度
 （wlr-gamma-control を足せば wlsunset・gammastep を借りられる）、サスペンドのボタン
 （logind）、範囲のスクリーンショット、二つ目の画面の部屋（いまは机の続きの板だけ。
 下の「画面が二つ以上のとき」）。
@@ -2822,8 +2815,8 @@ meson test -C build                     # 訳の表の確かめ（scripts/check-
 
 ## 作り方について
 
-DEsk は AI の助けを借りて作りました。コードと文書の多くは、作者の指示のもとで
-Claude（Anthropic の AI）が書いています。何を作り、どう見せるかは作者が決め、
+DEsk は AI の助けを借りて作りました。コードと文書の多くは、人の指示のもとで
+Claude（Anthropic の AI）が書いています。何を作り、どう見せるかは人が決め、
 実機で試し、入れるものを確かめています。不具合の報告や修正の提案は歓迎します。
 
 ## ライセンス

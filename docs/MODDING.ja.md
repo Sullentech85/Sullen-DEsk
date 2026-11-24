@@ -156,4 +156,4 @@ meson setup b-asan -Dbuildtype=debug -Db_sanitize=address,undefined
 meson setup b-tsan -Dbuildtype=debug -Db_sanitize=thread
 ```
 
-それぞれビルドし（`meson compile -C b-...`）、サニタイザの版を入れ子で動かして変えた所を通し、Ultra と 2D、長い言語と CJK の言語でプレビューを見て、記録に `[ERROR]` の行が無いか確かめます。これまでの変更をどう確かめてきたかは開発の記録（[design.md](design.md)）にあります。
+それぞれビルドし（`meson compile -C b-...`）、サニタイザの版を入れ子で動かして変えた所を通し、Ultra と 2D、長い言語と CJK の言語でプレビューを見て、記録に `[ERROR]` の行が無いか確かめます。

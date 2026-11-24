@@ -8,8 +8,7 @@ exist and what they own, and where everything is kept. It is meant for
 people reading or changing the code. For what DEsk looks like and how to use
 it, read the [README](../README.md); for recipes for common changes, read
 [MODDING.md](MODDING.md); for every setting and file, read
-[CONFIGURATION.md](CONFIGURATION.md). The full development log, in Japanese,
-is [design.md](design.md).
+[CONFIGURATION.md](CONFIGURATION.md).
 
 ## 1. Principles
 

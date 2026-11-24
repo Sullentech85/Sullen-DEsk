@@ -30,7 +30,7 @@ name and nixpkgs configuration:
 
 ```nix
 {
-  inputs.desk.url = "github:fyzugx/DEsk?dir=packaging/nix";
+  inputs.desk.url = "github:Sullentech85/Sullen-DEsk?dir=packaging/nix";
 
   outputs = { nixpkgs, desk, ... }: {
     nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {

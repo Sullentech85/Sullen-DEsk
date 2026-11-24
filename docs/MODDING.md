@@ -271,5 +271,4 @@ meson setup b-tsan -Dbuildtype=debug -Db_sanitize=thread
 Build each (`meson compile -C b-...`), run the sanitizer builds nested
 through what you changed, look at your change in the preview at Ultra and
 2D and in a long language and a CJK one, and check the log for
-`[ERROR]` lines. The development log ([design.md](design.md), in Japanese)
-shows how earlier changes were checked.
+`[ERROR]` lines.

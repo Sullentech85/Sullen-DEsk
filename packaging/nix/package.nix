@@ -223,8 +223,8 @@ stdenv.mkDerivation (finalAttrs: {
 
   meta = {
     description = "Skeuomorphic Wayland desktop with a ray-traced desk";
-    homepage = "https://github.com/fyzugx/DEsk";
-    changelog = "https://github.com/fyzugx/DEsk/blob/v${finalAttrs.version}/RELEASE-NOTES.md";
+    homepage = "https://github.com/Sullentech85/Sullen-DEsk";
+    changelog = "https://github.com/Sullentech85/Sullen-DEsk/blob/v${finalAttrs.version}/RELEASE-NOTES.md";
     license = lib.licenses.mit;
     platforms = lib.platforms.linux;
     mainProgram = "desk-window";

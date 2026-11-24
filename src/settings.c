@@ -11,7 +11,7 @@
  *
  * It is also where the rest of the machine is set from, and this is where
  * the line is drawn between what DEsk makes and what it borrows (README.md
- * and docs/design.md have the same line as a table):
+ * has the same line as a table):
  *
  *   DEsk makes      what is drawn as the room and handled as its things --
  *                     windows as paper, the drawer, the shelves, the clock,

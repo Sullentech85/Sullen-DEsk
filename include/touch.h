@@ -1,5 +1,5 @@
 /* ================================================================
- * Fingers: what they have done (docs/design.md).
+ * Fingers: what they have done.
  *
  * This knows nothing of the desk. It is told where fingers are, and says when one has been
  * tapped, held, or has set off, and when a whole hand has been put down and gone somewhere.
