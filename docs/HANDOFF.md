@@ -3,6 +3,13 @@
 What was last done here, what was decided, and what comes next. Rewrite the
 top section at the end of each working session; keep older ones below it.
 
+## 2026-11-25 -- rules: all work in PRs; save CI and build minutes
+
+Branch `agent/claude/rules-prs-and-minutes`. Claude (Opus 5.5), at the owner's request.
+`AGENTS.md` section 3 now says all work happens in pull requests; section 6 adds the rule to save
+GitHub Actions and Cloudflare Workers Builds minutes. `AGENT-KIT.md` changelog: v1.2. Nothing else
+changed; the next step is still the one in the entry below.
+
 ## 2026-11-24 -- making the fork its own, CI, wlroots 0.19 and 0.20
 
 Branch `make-it-mine`, on top of v0.2.1 (`afa666c`).

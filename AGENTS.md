@@ -61,6 +61,7 @@ If a row points somewhere other than the root, use that path. Never create a sec
 - **The owner merges.** Never merge your own pull request, never force-push a branch someone else is using, never rewrite published history.
 - **One agent per branch.** If another agent's branch or PR covers the same work, stop and tell the owner.
 - **Sign your work.** Commit messages and the `HANDOFF.md` entry say which agent and model did the work.
+- **All work happens in pull requests.** Every change, however small (code, docs, config, a one-line fix, these rules), goes on a branch and into a pull request. Nothing is pushed straight to the default branch, and only the owner merges.
 - **Commit or back up before large changes.**
 
 ## 4. Confirm with the owner before
@@ -84,6 +85,12 @@ If a row points somewhere other than the root, use that path. Never create a sec
 - Hard spending caps, rate limits and kill switches on paid services; budget alerts alone don't stop spending.
 - Know the hosting plan's bandwidth limit and overage price.
 - Guard against runaway loops, recursive calls and retry storms.
+- **Save CI and build minutes.** GitHub Actions and Cloudflare Workers Builds both have monthly limits; when they run out, checks and deploys stop for every repo on that account (n-socnet hit the GitHub limit in Nov 2026).
+  - Run the project's tests and checks on your own machine first. Push only when the work is ready for review, and keep it to as few pushes per pull request as you can: batch your commits, don't push work in progress to see whether CI passes.
+  - Every push to any branch can start both GitHub Actions and a Cloudflare preview build. Don't push branches you don't intend to open as a pull request.
+  - Don't re-run failed jobs without a change that fixes the cause.
+  - Don't add workflows, schedules (cron), matrix entries or slower checks without the owner's OK. Workflows should run on pull requests and on the default branch, not on every push to every branch.
+  - If a minutes or billing limit is hit, stop and tell the owner. Don't work around it.
 
 ## 7. Protect the rules
 

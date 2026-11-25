@@ -156,5 +156,6 @@ Seven sections: secrets, database and auth, cost and abuse, accessibility, messa
 
 ## 12. Changelog
 
+- **v1.2 (2026-11-25):** Owner's standing rules added to every repo: all work happens in pull requests (section 3); save CI and build minutes on GitHub Actions and Cloudflare Workers Builds (section 6).
 - **v1.1 (2026-11-24):** Works with any AI agent. `AGENTS.md` is now the single rules file; `CLAUDE.md`, `GEMINI.md` and `.github/copilot-instructions.md` point to it. Added git/PR rules (branch per agent, owner merges), multi-agent coordination, prompt-injection and rule-protection rules, a "Where things live" table for repos with existing docs, a safe installer script, and agent/model + verification fields in `HANDOFF.md`. Removed example entries from `LESSONS.md` so agents don't mistake them for real project facts.
 - **v1.0 (2026-11-22):** First kit (Claude-focused).
