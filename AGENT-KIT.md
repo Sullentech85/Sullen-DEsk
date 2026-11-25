@@ -99,7 +99,7 @@ The installer **never overwrites**: existing files are left alone, an existing `
 ### `AGENTS.md`
 - **Project facts**: the only part you must fill in per project.
 - **Where things live**: change a path when a repo already keeps that file elsewhere (for example `docs/LESSONS.md`). Add every other doc agents must read to "Other project docs to read".
-- **Sections 1–8**: the same in every repo. Change them in the template so every new project gets the change; existing repos get it through a PR.
+- **Sections 1–9**: the same in every repo. Change them in the template so every new project gets the change; existing repos get it through a PR.
 
 ### `LESSONS.md`
 Specific beats vague. Good: "This repo uses pnpm; never run `npm install`." / "Use `<input type="date">` unless the design needs more." Bad: "Be careful with installs."
@@ -142,7 +142,7 @@ Seven sections: secrets, database and auth, cost and abuse, accessibility, messa
 ## 10. Updating the kit
 
 1. Change the files in the template repo and add a line to the Changelog below.
-2. For existing repos, re-run `install-agent-kit.sh`: it adds new files but never overwrites, so for changed rules copy sections 1–8 of `AGENTS.md` over by hand (keeping each repo's Project facts and Where things live) in a PR.
+2. For existing repos, re-run `install-agent-kit.sh`: it adds new files but never overwrites, so for changed rules copy sections 1–9 of `AGENTS.md` over by hand (keeping each repo's Project facts and Where things live) in a PR.
 
 ## 11. FAQ
 
@@ -156,5 +156,7 @@ Seven sections: secrets, database and auth, cost and abuse, accessibility, messa
 
 ## 12. Changelog
 
+- **v1.3 (2026-11-25):** Section 9 added: every agent that built part of a project runs the owner's pruning and simplification audit at the end of each project phase and reports findings before changing anything; section 8 gains a step pointing to it.
+- **v1.2 (2026-11-25):** Owner's standing rules added to every repo: all work happens in pull requests (section 3); save CI and build minutes on GitHub Actions and Cloudflare Workers Builds (section 6).
 - **v1.1 (2026-11-24):** Works with any AI agent. `AGENTS.md` is now the single rules file; `CLAUDE.md`, `GEMINI.md` and `.github/copilot-instructions.md` point to it. Added git/PR rules (branch per agent, owner merges), multi-agent coordination, prompt-injection and rule-protection rules, a "Where things live" table for repos with existing docs, a safe installer script, and agent/model + verification fields in `HANDOFF.md`. Removed example entries from `LESSONS.md` so agents don't mistake them for real project facts.
 - **v1.0 (2026-11-22):** First kit (Claude-focused).
