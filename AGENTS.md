@@ -103,7 +103,37 @@ If a row points somewhere other than the root, use that path. Never create a sec
 2. If something went wrong and got fixed, add it to `LESSONS.md`.
 3. Push your branch and open or update the pull request.
 4. Before anything goes public, work through `PRELAUNCH.md`.
+5. If this session ends a phase of the project, run the section 9 audit first and present its findings before the final commit or merge of that phase.
+
+## 9. End of a project phase: pruning and simplification audit
+
+Every agent that built any part of a project runs this audit **every time a phase of the project ends**: before the phase is finalized, committed as done or merged. The owner's instruction, word for word:
+
+> We are wrapping up this build. Before I finalize or commit the project, perform a thorough **code pruning and simplification audit** across the repository.
+>
+> ### What to Audit & Flag
+> 1. **Dead & Unreachable Code:** Unused functions, orphaned variables/constants, commented-out blocks, unreferenced files, or leftover debug/console statements.
+> 2. **Duplicate Logic:** Repeated blocks, copy-pasted calculations, or overlapping helpers that should be consolidated into a single clean function or shared module.
+> 3. **Unused Components & Assets:** UI elements, routes, stylesheets, scripts, or media assets created during iteration that are no longer rendered or imported.
+> 4. **Over-Engineering & Unnecessary Complexity:** Over-abstracted wrappers, speculative config flags, heavy state layers, or extra build/tooling steps added "just in case" that aren't needed for the current scope.
+>
+> ### Rules & Output Format
+> - **Do NOT edit or delete files yet.** Present your findings first so I can review them.
+> - **Preserve working behavior & constraints:** Do not break active features, change public interfaces unexpectedly, introduce new external dependencies, or add build steps where plain files/vanilla code are used.
+> - Group every finding by category (**Dead Code**, **Duplicate Logic**, **Unused Components/Assets**, **Unnecessary Complexity**).
+> - For each item, list:
+>   - **File / Location**
+>   - **What It Is**
+>   - **Risk Level** (`Safe to remove`, `Consolidate carefully`, or `Keep — needed for active/planned flow`)
+>   - **Proposed Action** (exact deletion or simplification)
+> - End with a short summary of the highest-impact cleanups first, and ask me which items you want applied before making any changes.
+
+How this fits the other rules:
+
+- The findings go to the owner in the chat or in the phase's pull request description. Nothing is changed until he picks the items.
+- The items he picks are applied in their own pull request (section 3), with the project's tests and checks run before it is pushed (section 2), in one push where possible (section 6).
+- Files a project marks as kept on purpose (supplied art, things listed as off-limits in "Project facts", anything `LESSONS.md` says to keep) are reported as `Keep — needed for active/planned flow`, never proposed for deletion.
 
 ---
 
-*Kit guide: `AGENT-KIT.md`. Owner-only edits to sections 1–8.*
+*Kit guide: `AGENT-KIT.md`. Owner-only edits to sections 1–9.*
